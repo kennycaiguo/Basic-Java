@@ -1,0 +1,16 @@
+1.Sehwag
+2.Gambhir
+3.Sachin
+4.Virat Kohli
+5.Yuvraj
+6.Dhoni
+7.Raina
+8.Ashwin
+9.Jadeja
+10.Y Pathan
+11.Balaji
+12.I Pathan
+13.Zaheer Khan
+14.Harbajan
+15.Munaf
+16.D Karthik

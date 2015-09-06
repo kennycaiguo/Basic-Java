@@ -1,0 +1,163 @@
+
+<!-- saved from url=(0645)http://www.socialgrowthtechnologies.com/couponbuddy_v001/index.php?ctid=CT2786678#&uid=129579220236217502&isExtension=1&top=33&left=647&width=25&height=22&isHtmlCom=true&mainFrameUrl=http%3A//www.google.co.in/%23hl%3Den%26sclient%3Dpsy-ab%26q%3Dexplanation+to+connect+javascript+to+database%26oq%3Dexplanation+to+connect+javascript+to+database%26aq%3Df%26aqi%3D%26aql%3D%26gs_sm%3D12%26gs_upl%3D137711l149951l3l152281l16l16l0l0l0l9l1589l16826l6-6.9.1l16l0%26gs_l%3Dserp.12...137711l149951l3l152281l16l16l0l0l0l9l1589l16826l6-6j9j1l16l0.frgbld.%26psj%3D1%26bav%3Don.2%2Cor.r_gc.r_pw.r_qf.%2Ccf.osb%26fp%3Db2927dafcc265fbb%26biw%3D1366%26bih%3D653 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  
+  <script type="text/javascript" src="BrowserCompApi.js"></script><script id="__isTpiViewExists"></script></head><body onload="displayLogo();" id="body_element" class="null"><embed id="pluginObj" type="ConduitChromeApi" style="height:0; visibility: hidden; position: fixed;">
+  <script type="text/javascript" language="javascript">
+    var runOnce = true;
+    function appendScript(script_url) {
+      var found_script = false;
+      var script_tags = document.getElementsByTagName("script");
+      for (var x=0; x < script_tags.length; x++) {
+        var script_tag = script_tags[x];
+        if (script_tag.src == script_url) {
+          found_script = true;
+        }
+      }
+
+      if (!found_script) {
+        var head = document.getElementsByTagName('head')[0];
+        var js = document.createElement('script');
+        js.src = script_url;
+        head.appendChild(js);
+      }
+    }
+
+    function checkBrowser() {
+      
+      if (navigator.userAgent.indexOf("Firefox") != -1) {
+        return true;
+      }
+      
+
+      
+      if (navigator.userAgent.indexOf("MSIE") != -1) {
+        return true;
+      }
+      
+
+      
+      if (navigator.userAgent.indexOf("Chrome") != -1) {
+        return true;
+      }
+      
+
+      return false;
+    }
+
+    function EBDocumentComplete(url, tabid) {
+
+      if ('undefined' == typeof toolbarHelper || "undefined" == couponBuddyReferrers) {
+        setTimeout(EBDocumentComplete, 1000);
+        return;
+      }
+
+      if (checkBrowser()) {
+        if ("undefined" === typeof tabid) {
+          tabid = "clickhandler";
+        }
+        toolbarHelper.startStepOne('CT2786678', 'http://socialgrowthtechnologies.com/couponbuddy_v001', url, tabid);
+        runOnce = false;
+        
+      }
+    }
+
+    function EBNavigateComplete(url, tabid) {
+      return;
+      if (navigator.userAgent.indexOf("Firefox") != -1 && "undefined" !== typeof url) { 
+        if ("undefined" === typeof tabid) {
+          tabid = "clickhandler";
+        }
+        checkCouponBuddyReferrers(url, tabid);
+      }
+    }
+
+    function checkCouponBuddyReferrers(url, tabid) {
+      if ('undefined' === typeof couponBuddyReferrers) {
+        setTimeout(function() { checkCouponBuddyReferrers(url, tabid); url=null; tabid=null; }, 2000);
+        return;
+      }
+      couponBuddyReferrers.addClick(url, tabid);
+    }
+
+    function EBTabChange() {
+      runOnce = true;
+      EBDocumentComplete();
+    }
+
+    function getBrowserLanguage(browserName) {
+      var supportedLanguageCodes = ['en', 'de', 'fr', 'it', 'pt', 'es'];
+      if (browserName == "Firefox") {
+        var browserCode = navigator.language.slice(0, 2);
+      }
+      for (var i=0; i<supportedLanguageCodes.length; i++) {
+        if (supportedLanguageCodes[i] == browserCode) {
+          return browserCode;
+        }
+      }
+      return 'en';
+    }
+
+    function displayLogo() {
+      if (typeof(RetrieveGlobalKey) != "function") {
+        setTimeout(displayLogo, 500);
+        return;
+      }
+      var cb_firsttime = new Date().getTime();
+      var cb_firsttime_key = "cbfirsttime";
+      try {
+        cb_firsttime = RetrieveGlobalKey(cb_firsttime_key);
+        if (!cb_firsttime) {
+          var cb_firsttime = new Date().toString();
+          StoreGlobalKey(cb_firsttime_key, cb_firsttime);
+        } 
+      } catch (err) {
+        cb_firsttime = new Date().toString();
+        StoreGlobalKey(cb_firsttime_key, cb_firsttime);
+      }
+    
+
+      try {
+        var rubicon = 1325389445604;
+        var firsttime_date = new Date(cb_firsttime).getTime();
+        if (firsttime_date > rubicon) {
+          return;
+        }
+      } catch (err) {
+      }
+
+      var language_code = "en";
+      if (checkBrowser()) {
+        appendScript("https://searchjs.s3.amazonaws.com/2012-03-20_14-11-23/chrome.js");
+        var span = document.getElementById('gadget_link');
+        span.style.display = 'block';
+      }
+
+      
+    }
+
+    
+
+    </script>
+    <style type="text/css">
+      body {
+        margin: 0 0 0 1px;
+        padding: 0;
+      }
+
+      span {
+        cursor: pointer;
+      }
+
+    </style>
+  
+
+  
+    <span onclick="EBCallBackMessageReceived(&#39;popup&#39;);" id="gadget_link" style="display: none;">
+      <img src="cb_24x24.png">
+    </span>
+  
+
+
+
+<div id="isChromeWebToolbarDiv" style="display:none"></div><div id="returnOnLoadData" style="display:none">{"wasGlobalKeySaved":true,"propName":"_GLOBAL_uTTorrents","propValue":"{\"build\":25460,\"label\":[],\"torrents\":[[\"E934A01E6B877405A3CCE90C9EEB06B9862DF7A4\",201,\"SB English\",431858168,93,40566784,0,0,230,41657,14288,\"\",7,101,28,76,1966000,1,391291384,\"\",\"\",\"Downloading\",\"11a35c4\",1332273862,0,\"\",\"C:\\\\Users\\\\manoj\\\\Downloads\\\\SB English\",0]],\"torrentc\":\"1103459342\",\"rssfeeds\":[],\"rssfilters\":[]}","saveSucceeded":true}</div><div id="returnOnLoadData" style="display:none"></div><div id="returnOnLoadData" style="display:none"></div></body></html>

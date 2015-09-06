@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0052)http://www.cs.uofs.edu/~bi/eclipse/servlet-jdbc.html -->
+<html><!--  Created with the CoffeeCup HTML Editor 2005  --><!--           http://www.coffeecup.com/           --><!--        Brewed on 4/5/2005 10:27:43 AM         --><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>Web Programming</title>
+  <meta name="generator" content="CoffeeCup HTML Editor -  www.coffeecup.com">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+<script id="__isTpiViewExists"></script><link rel="stylesheet" type="text/css" href="chrome-extension://bejbohlohkkgompgecdcbbglkpjfjgdj/css/about.css"></head>
+<body bgcolor="#ffffff" text="#000000" link="#0000ff" vlink="#800080" alink="#ff0000">
+<div align="left"><a name="servlet"></a><b><font face="Arial,Helvetica"><font color="#800000" size="+2">Servlets, JDBC and PostgreSQL</font></font></b></div>
+<div><strong><font color="#800000">Copyright © 2005 <br>Yaodong Bi&nbsp; </font></strong><br><br><strong><font face="Arial" size="5">Introduction</font></strong> <br><font face="Garamond"><br>Java Servlets, or simply servlets&nbsp;are a set of Java classes that can be&nbsp;used&nbsp;and extended for Web server-side programming provided the Web server supports Java servlets. Basically, the programmer specifies which servlet is to be used to process&nbsp;which request or which type of requests from client. Thus, when a request&nbsp;is&nbsp;received by the Web server, the&nbsp;Web server finds the proper servlet for the request. For example, in an HTML form,&nbsp;&nbsp;its action clause can explicity specify&nbsp;which&nbsp;servlet be invoked to process the data submitted&nbsp;through the form.&nbsp; <br><br>JDBC is an application programming interface (JDBC API) that&nbsp;defines a set of standard operations for interacting with relational database management systems (DBMSs). The DBMSs may be located on a remote machine connected to the Internet. In order to access a database under a specific DBMS, for example, PostgreSQL, one must have a driver for that DBMS and the driver must implement JDBC API. JDBC is a trademark name and not an acronym. <br><br>With HTML, Servlets, JDBC, and DBMS, we can easily build Web-based three-tier systems -- client, Web server, and database server. HTML is used to design the client-side interface that is to be executed on a Web browser such as Netscape and Internet Explore. Servlets can be employed to do server-side programming and JDBC can be used to&nbsp;interact with&nbsp;a database(s) for the requests from clients. The database(s) may be located on a remote database server.<br>This section describe how to use Servlets and JDBC and PostgreSQL to implement three-tier Web-based applications. <br><br></font><strong><font face="Arial" size="5">Using JDBC to Access PostgreSQL Databases</font></strong> <br><font face="Garamond"><br><font face="Arial,Helvetica"><font color="#000000"><font size="+1">Basic Steps:&nbsp;</font></font></font> <br><br>Using JDBC to access databases can be described in six steps. The first step is to load the JDBC driver for the DBMS you need to interact with; the second step is to connect to the database; the third step is to create a statement, the fourth step is to query the database using SQL Select statements; the&nbsp;fifth step is to insert/delete/update data in the database. The fourth and&nbsp;fifth steps can be repeated as many times as needed by the application. When the application does not need to interact with the database, it should close all the resources, including ResultSet, Statement, and Connection, which should be the last step of using JDBC.<br><font face="Arial,Helvetica"><font color="#000099"><br></font></font></font><font face="Arial,Helvetica"><font color="#000099"><font face="Garamond"><font face="Arial,Helvetica"><font color="#000099">Step 1: Load the JDBC drivers</font></font> <br><br><font color="#000000">A JDBC driver is an implementation of&nbsp;JDBC API for a specific DBMS. A Java program can load several JDBC drivers at time. This allows the program to interact with more one database running under different DBMSs. The following line of code loads&nbsp;the JDBC driver for PostgreSQL,&nbsp;</font><font face="Arial,Helvetica" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;<br><br></font></font>     </font></font><font face="Courier New"> &nbsp;&nbsp;&nbsp; <font size="2">Class.forName("org.postgresql.Driver");</font><font size="2">&nbsp; <br></font></font><font face="Garamond"><br>Normally a JDBC driver is achived in a Java jar file and this jar file must be included in the CLASSPATH environment variable. You can download a copy of PostgreSQL JDBC driver by click <a href="http://www.cs.uofs.edu/~bi/eclipse/pg73jdbc3.jar">here</a>     .&nbsp;However, you may want to search online to&nbsp;find&nbsp;the version of JDBC driver that matches the version of PostgreSQL.</font><font face="Arial,Helvetica" color="#000000"><br>&nbsp;&nbsp;<br></font><font face="Arial,Helvetica"><font color="#000099">Step 2: Connect to the database</font></font> <br><font face="Garamond"><br>A connection to a database can be established via the <strong><em>getConnection</em></strong> method of the <strong><em>DriverManager</em></strong> class. The <strong><em>getConnection</em></strong> method accepts three parameters -- the database, user name, and password. The following example connects to a database named "dbname" which is under PostgreSQL DBMS on mach.domain.edu, the user is "unu", and password is null.&nbsp;&nbsp;&nbsp;<font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;<br><br></font></font>                                                     <font face="Courier New,Courier"><font face="Courier New" size="2"><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp; String url =                                                                                                                "jdbc:postgresql://server8.cs.uofs.edu/";</font> <br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp; String dbname = "dbname";</font> <br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp; String usernm = "unu";</font> <br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp; String passwd = "";</font> <br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp; Connection db =                                                                                                                DriverManager.getConnection(</font> <br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; url+dbname, usernm, passwd);</font> <br> <br></font>           </font><font face="Garamond">Here, the <font face="Courier New">url</font> variable contains which JDBC driver is to used for this connection and also which machine, by IP address,&nbsp;hosts the DBMS and the database.&nbsp;
+<br>
+</font><br><font face="Arial,Helvetica"><font color="#000099">Step 3: Create a statement<br>    </font></font> <font face="Courier New,Courier">
+<font face="Garamond">
+<br>
+A <strong><em>Statement</em></strong>
+  object has the ability to parse SQL statements, send the SQL statements to the DBMS, and accept the results returned from the DBMS.<br><br>
+</font>
+
+<font face="Courier New,Courier" size="2">&nbsp;&nbsp;&nbsp; Statement st =                         db.createStatement();</font>
+ <br><br><font face="Arial,Helvetica"><font color="#000099">Step 4 and 5: Interact with the database</font></font>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+<font face="Garamond">
+Normally, two opertions of <strong><em>Statement</em></strong> are needed to interact with a database. One is <strong><em>executeQuery(sql_select)</em></strong>, which takes a SQL Select statement as its argument, sends the Select to the DBMS, and returns the results as an object of <strong><em>ResultSet</em></strong>. The other operation is <strong><em>executeUpdate(sql_insert_delete_update)</em></strong>, which takes a SQL statement (Insert, Delete, or Update), sends it to the DBMS. Both operations throw a <strong><em>SQLException</em></strong>
+                                                               if the statement cannot be executed by the DBMS successfully.<br><br>The two operations normally may be used as often as the applicaton requires.<br>            <br>&nbsp;&nbsp;
+
+</font>
+<font face="Courier New" size="2"> &nbsp;&nbsp;&nbsp;String sql =                                     "SELECT name, title " + <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "FROM faculty f, course c " + <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "WHERE f.id = c.instructor"; <br>&nbsp;&nbsp;&nbsp; ResultSet rs = st.executeQuery(sql);<br><br>&nbsp;&nbsp;&nbsp; String faculty = '123456';<br>&nbsp;&nbsp;&nbsp; String sql = "INSERT INTO faculty VALUES (" +&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "'" + faculty +&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "', 'Dave Letterman', 'Estate 1942', '941-6108')";<br>&nbsp;&nbsp;&nbsp; st.executeUpdate(sql);&nbsp;&nbsp;&nbsp;&nbsp;<br></font></font>
+
+<font color="#000099"><br>
+<font face="Arial">Step 6: Disconnect from the database<br></font></font>
+
+<br>
+<font face="Garamond">
+When the application completes or no further database interaction is needed, you should return JDBC resources back to the system, which include, objects of Statement, ResultSet, and Connection.<br><br>
+</font>
+
+<font face="Courier New" size="2">
+&nbsp;&nbsp;&nbsp; rs.close();<br>&nbsp;&nbsp;&nbsp; st.close();
+<br>
+</font>
+<br>
+
+<font face="Arial,Helvetica"><font color="#000000"><font size="+1">An Example</font></font></font> <br><br>
+<font face="Garamond">
+The following is a link to a real Java program with JDBC. It basically puts all the steps mentioned above together. <font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;<br><a href="http://www.cs.uofs.edu/~bi/eclipse/SimpleJDBC.java">Your First JDBC Program: SimpleJDBC.java</a></font> </font>
+
+ <br><br><strong><font face="Arial" size="5">Using Servlets for Web-Server-Side Programming</font></strong> <br><br><font face="Arial,Helvetica"><font color="#000000"><font size="4">Introduction</font><font face="Times New Roman"> </font><br></font></font><br><font face="Garamond">Sevlets are&nbsp;Java classes that can be&nbsp;used to enhance the functionality of WWW servers. Web-based servlets typically extend the <font face="Courier New">HttpServlet</font> class from the Java API that defines two methods to handle the two common types of requests. Method <font face="Courier New">doGet</font>() is designed to respond GET requests and method <font face="Courier New">doPost</font>() to respond POST requests. Both methods receive as arguments an <font face="Courier New">HttpServletRequest</font> object and an <font face="Courier New">HttpServletResponset</font> object that enable interactions between the client and the server.&nbsp;<br><br>A Web application using servlets normally consists of two parts. One is an HTML file which runs on the client side. It contains an HTML form for the user to enter any data that is to be passed to the server as part of the request. The action clause of the form specifies which servlet be used to process the data. The specified servlet&nbsp;is invoked by the Web&nbsp;server to process the request&nbsp;along with&nbsp;passed data&nbsp;and it then it responds by sending information, which is normally&nbsp;a wegpage, back to the client. In the following an HTML file is shown and then the basic steps for designing servlets are described.&nbsp; <br><br></font><font face="Arial,Helvetica"><font color="#000000"><font size="4">Basic Steps for HTML</font> <br></font></font><br><font face="Garamond">This HTML file invokes the SimpleServlet servlet designed above. It basically contains two parts. The second part includes a form which can accept input data from the user - user frist name and last name. The aciton for the form is to invoke the SimpleServlet servlet. Whent the user click the submit button, the servlet will be invoked by the web server.&nbsp;<br>The relevant lines are highlighted in blue.&nbsp; The first part uses JavaScript to do primitive data checking. for example, if you expect the user to enter the first name and last name, then JavaScript functions can be designed to check the two field before the request is sent to the Web server. Thus it can reduce unnecessary traffic on the Internet. <br></font>
+
+<font size="2">
+<br>
+<font face="Courier New,Courier">
+&lt;html&gt;
+
+ <br>
+
+ &lt;head&gt;
+
+  <br>
+   &nbsp;&lt;title&gt;UOFSIS 0.6: Registrar www Interface&lt;/title&gt;
+   <br>
+    &lt;SCRIPT LANGUAGE="JavaScript"&gt;
+     <br>
+    &lt;!--HIDE
+  <br>&nbsp;function check() <br>&nbsp;{ <br>&nbsp; if (document.forms[0].firstname.value == "") { <br>&nbsp;&nbsp; alert("Please Enter Your First Name!")<br>&nbsp;&nbsp; return false <br>&nbsp; } <br>&nbsp; if (document.forms[0].lastname.value == "") { <br>&nbsp;&nbsp; alert("Please Enter your Last Name!") <br>&nbsp;&nbsp; return false <br>&nbsp; } else { <br>&nbsp;&nbsp; return true <br>&nbsp; } <br>&nbsp;} <br>//STOP HIDING--&gt; <br>&lt;/SCRIPT&gt; <br>&lt;/head&gt; &lt;body&gt; <br>&nbsp;&lt;h1&gt;&lt;center&gt;Simple Servlet at UOFS&lt;/h1&gt;<br>&nbsp;&lt;form action=<font color="#0000ff">http://localhost:8081/servlet/SimpleServlet</font>" method=                                          "POST"&gt;&nbsp;<br>&nbsp; &lt;pre&gt;&nbsp; <br>&nbsp;&nbsp;&nbsp; First Name*: &lt;input type="text" name="firstname" value=""&gt;&nbsp; <br>&nbsp;&nbsp;&nbsp; Last Name*: &lt;input type="text" <font color="#3333ff">name="lastname"</font>value=""&gt; <br>&nbsp; &lt;/pre&gt;<br>  &nbsp; &lt;center&gt;&nbsp; <br>&nbsp; &lt;input type="submit" name="request" value="submit your name" <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; onClick="return check()"&gt; <br>&nbsp; &lt;br&gt;&lt;br&gt; <br>&nbsp; &lt;input type="reset" value="Clear the Form"&gt; <br>&nbsp;&lt;/form&gt; <br>&lt;/body&gt; <br>&lt;/html&gt; <br><br>
+</font><font face="Arial"><font color="#000000"><font size="4">Basic Steps for Using Servlets</font> <br><br></font><font size="3"><font color="#000099">
+Step 1: Import Servlet Classes</font>
+
+<br></font></font><br><font face="Garamond" size="3">Import the following classes:   &nbsp;&nbsp;<br></font><br>
+<font face="Courier New,Courier"><font size="2">&nbsp;&nbsp; import java.io.*; <br>&nbsp;&nbsp; import javax.servlet.*; <br>&nbsp;&nbsp; import javax.servlet.http.*; <br></font></font>
+
+<br><font face="Arial"><font size="3"><font color="#000099">Step 2: Import Servlet Classes</font> <br></font></font><br><font face="Garamond" size="3">Derive your servlet from HttpServlet:&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></font> <font face="Courier New,Courier"><font size="2"><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp; public class SimpleServlet extends HttpServlet</font> <br></font></font>
+<br>
+<font face="Arial"><font size="3"><font color="#000099">Step 3: Put servlet initialization in the init() function</font> <br><br></font></font>
+
+<font face="Garamond"><font size="3">The <font face="Courier New">init()</font>  function is executed only once when the servlet is first time executed. You may put JDBC connection or other initialization functions here. If you don't have any thing special, the following suffices.&nbsp;&nbsp;&nbsp;<br><br></font></font>
+ <font face="Courier New,Courier"><font size="2">&nbsp; public void init(ServletConfig config) throws ServletException <br>&nbsp; { <br>&nbsp;&nbsp;&nbsp; super.init(config); <br>&nbsp;&nbsp;} <br><br></font></font>
+  <font face="Garamond" size="3"><font color="#000099">Step 4: In doPost(), process request and print in HTML the response</font> <br><br>
+
+When a POST request is made by the client, doPost() will be invoked by the Web server. You can process the request and produce a response.</font> <font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br><br><font size="2"><font face="Courier New,Courier">&nbsp;&nbsp; public void doPost (HttpServletRequest req, HttpServletResponse resp)&nbsp;</font> <br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; throws ServletException, IOException</font> <br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp; {</font>&nbsp; <br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; String fname =                                                                                                                            req.getParameter("firstname");</font>&nbsp; <br><font face="Courier New,Courier"><font size="-1"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font>String lname =                                                                                   req.getParameter("lastname");</font></font>&nbsp; <font face="Courier New,Courier"><font size="-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font>displayHTML(resp, fname, lname);</font></font> <br><font face="Courier New,Courier"><font size="-1">&nbsp;&nbsp;&nbsp;&nbsp; }</font></font> <br><br></font></font>
+
+<font face="Garamond" size="3">The doPost() has two parameters - one for request and the other for response. The above segment of code shows how to get the value of a parameter passed from the HTML form. String literals "firstname" and "lastname" are the names for two text input boxes on the HTML form. Next will show how to print HTML text back the client.</font> <font face="Courier New,Courier" size="2">
+&nbsp;&nbsp;&nbsp;&nbsp; <br><br>&nbsp; private void displayHTML(HttpServletResponse resp, String fn, String ln)
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; throws ServletException, IOException
+ <br>
+ &nbsp;&nbsp;&nbsp;&nbsp; {
+ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PrintWriter out =           resp.getWriter();
+ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; resp.setContentType("text/html");
+ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; out.println("&lt;HTML&gt;&lt;HEAD&gt;&lt;TITLE&gt;");
+ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; out.println("Registrar Office");
+ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; out.println("&lt;/TITLE&gt;&lt;/HEAD&gt;&lt;BODY&gt;"); <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; out.println("&lt;H1&gt;&lt;CENTER&gt;Hello, "+fn+" "+ln+"&lt;/CENTER&gt;&lt;/H1&gt;");
+ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; out.println("&lt;H1&gt;&lt;CENTER&gt;Your first servlet works!&lt;/CENTER&gt;&lt;/H1&gt;");
+ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; out.println("&lt;/BODY&gt;&lt;/HTML&gt;");
+ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; out.close();
+ <br>&nbsp;&nbsp;&nbsp; }
+ </font> <br><br>
+
+<font face="Garamond" size="3">The above function prints HTML text back to the client. The body of this function could be included in the doPost() rather than in a separate function. Its first parameter is passed in by the doPost function. First, we get a PrintWriter which can be used to output HTML statements. Second, we set up the ContentType, then use the PrintWriter (out) to print HTML statements.</font>
+ <font face="Garamond" size="3"><font color="#000099"><br><br>Step 5: Compile the Servlet and put the class in the servlet directory</font></font> <br><br><font face="Garamond" size="3">Compile the servlet program.<br>   </font><br>&nbsp; &nbsp;<font face="Courier New,Courier"><font size="-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; javac SimpleServlet.java</font></font> <br><br><font face="Arial,Helvetica"><font color="#000000"><font size="+1">Source Code:</font></font></font> </font></div><font size="2">
+<ol>
+  <li><font color="#000000"><a href="http://www.cs.uofs.edu/~bi/eclipse/SimpleServlet.htm.txt">SimpleServlet.htm:</a>   &nbsp;</font>   </li><li><font color="#000000"><a href="http://www.cs.uofs.edu/~bi/eclipse/SimpleServlet.java">SimpleServlet.java</a>   </font></li></ol>
+<div>
+<font face="Arial,Helvetica" size="5"><strong>Web Application Deployment with Tomcat<br></strong></font>
+
+<br><strong><font size="4"><font face="Arial"><strong><font size="4">Standard directory structures with Tomcat<br></font></strong></font></font></strong><br>
+
+<font face="Garamond" size="3">
+A Web application is defined as a&nbsp;set of directories and files in a standard layout. The top-level directory of your Web application hierarchy is also the document root of your application. When the Tomcat manager deploys your application into the Tomcat web server, he or she assigns a context path, which is normally the name of your application, to your application. Thus, if your application is, for example, E-Movie, and it is assigned as the context path, then users of the application would enter <font face="Courier New">http://web-server-host/E-Movie/index.html</font>&nbsp;tto access the <font face="Courier New">index.html</font> of your application saved in the root directory. The context path appears as a directory in the directory of <font face="Courier New">$TOMCAT_HOME/webapps/ </font>and it normally contains following directories and files:<br>
+
+<br>
+<font face="Arial" color="#000099">HTML files <br></font>
+
+The HTML&nbsp;files along with other files (such as JavaScript, stylesheet files, and images) that constitute the user interface are stored in the root directory (context path)&nbsp;of your application.&nbsp;&nbsp;.
+</font>
+</div>
+
+<div><br>
+<font face="Garamond" size="3"><font color="#000099">/WEB-INF/web.xml&nbsp;<br></font>The web.xml is called the&nbsp;Web Application Deployment Descriptor for your application. This XML file normally consists of three segments: the first segment defines the servlets of the application, the second defines what&nbsp;Web link(s) would invoke the execution of the doPost() or doGet() operation of which servlet, the third normally defines initialization parameters. The following shows the <em>web.xml</em> for the SimpleServlet example. You may want to look back at the form action clause in the <em>SimpleServlet.html</em> file to see how that web page specifies the <em>SimpleServlet</em> servlet as the server-side program that is to invoked to process the form data when the form is <em>submitted</em></font>
+</div>
+</font><div><font size="2"><br>
+</font><div><font size="2"><font face="Times New Roman" size="3"><font face="Courier New" size="2">
+</font></font></font><div><font size="2"><font face="Times New Roman" size="3"><font face="Courier New" size="2"><font face="Times New Roman" size="3"><font face="Courier New" size="2"><font face="Times New Roman" size="3"><font face="Courier New" size="2">
+<div>&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;</div>
+<div>&lt;!DOCTYPE web-app<br>&nbsp;&nbsp;&nbsp; PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"<br>&nbsp;&nbsp;&nbsp; " <a href="http://java.sun.com/dtd/web-app_2_3.dtd">http://java.sun.com/dtd/web-app_2_3.dtd</a>"&gt;<br>&nbsp;&nbsp;&nbsp; <br>&lt;web-app&gt;<br>&nbsp;&nbsp;&nbsp; &lt;display-name&gt;Web Application Example&lt;/display-name&gt;<br>&nbsp;&nbsp;&nbsp; &lt;description&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Simple Servlet Example<br>&nbsp;&nbsp;&nbsp; &lt;/description&gt;<br><br></div>
+<div>&nbsp;&nbsp;&nbsp; &lt;!-- Define servlets that are included in the example application --&gt;<br>&nbsp;&nbsp;&nbsp; &lt;!-- First line defines a name for the servlet --&gt;<br>&nbsp;&nbsp;&nbsp; &lt;!-- second line specifies where the .class file is for that servlet --&gt;<br><font color="#0000ff">&nbsp;&nbsp;&nbsp; &lt;servlet&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;servlet-name&gt;SimpleServlet&lt;/servlet-name&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;servlet-class&gt;edu.scranton.cs.bi.web.SimpleServlet&lt;/servlet-class&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/servlet&gt;<br></font></div>
+<div><br>&nbsp;&nbsp;&nbsp; &lt;!-- the above definition may be repeated as needed&nbsp;<br>&nbsp;&nbsp;&nbsp; &lt;servlet&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;servlet-name&gt;AnotherServlet&lt;/servlet-name&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;servlet-class&gt;edu.scranton.cs.bi.web.AnotherServlet&lt;/servlet-class&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/servlet&gt; <br>&nbsp;&nbsp;&nbsp; --&gt;<br></div>
+</font></font><div><font face="Times New Roman" size="3"><font face="Courier New" size="2"><br>&nbsp;&nbsp;&nbsp; &lt;!-- Specifies what URI the above defined servlet is to be invoked --&gt;<br>&nbsp;&nbsp;&nbsp; &lt;!-- First line must be a servlet name defined above --&gt;<br>&nbsp;&nbsp;&nbsp; &lt;!-- second line specifies what URI the named servlet is invoked --&gt;<br>&nbsp;&nbsp;&nbsp; &lt;!-- URI: http://host/context-path/servlet/SimpleServlet--&gt;&nbsp;&nbsp;&nbsp;&nbsp; <br><font color="#ff8000">&nbsp;&nbsp;&nbsp; &lt;servlet-mapping&gt;<br>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &lt;servlet-name&gt;SimpleServlet&lt;/servlet-name&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;url-pattern&gt;/servlet/SimpleServlet&lt;/url-pattern&gt;<br></font>
+<div><font color="#ff8000">&nbsp;&nbsp;&nbsp; &lt;/servlet-mapping&gt;<br></font></div>
+</font></font><div><font face="Times New Roman" size="3"><font face="Courier New" size="2"><br>&nbsp;&nbsp;&nbsp; &lt;!-- URI: http://host/context-path/SimpleServlet&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp; &lt;servlet-mapping&gt;<br>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &lt;servlet-name&gt;AnotherServlet&lt;/servlet-name&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;url-pattern&gt;/AnotherServlet&lt;/url-pattern&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/servlet-mapping&gt;&nbsp;<br>&nbsp;&nbsp;&nbsp; --&gt;&nbsp;&nbsp;&nbsp; <br>&lt;/web-app&gt;</font> <br></font><br>
+
+<font face="Garamond" size="3"><font color="#000099">/WEB-INF/classes/<br></font>
+This directory contains all your servlet class files and all the other java classes files that are used in your application. Don't put&nbsp;any JAR&nbsp;files in this subdirectory. If your classes are in Java packages, you will have to define the package directory structure under this /WEB-INF/classes/ directory. For example, a Java class named <font face="Courier New">edu.scranton.cs.bi.web/SimpleServlet.class </font>would be stored in a file named <font face="Courier New">/WEB-INF/classes/edu.scranton.cs.bi.web/SimpleServlet.class</font>.</font></div>
+
+<div><br><font face="Garamond" size="3"><font color="#000099">/WEB-INF/lib/</font>
+<br>This directory is where you store all java JAR files, such as JDBC drivers.&nbsp;&nbsp;<br><br></font></div>
+<div><font face="Garamond" size="3"><font color="#000099"><a name="shared"></a>Accessible classes/JARS in Tomcat</font><br> All classes in the <font face="Courier New" size="2">WEB-INF/classes/</font>  directory and classes in JAR files&nbsp;stored in the <font face="Courier New" size="2">WEB-INF/lib/</font> directory, and classes stored in&nbsp;&nbsp;<font face="Courier New" size="2">$TOMCAT_HOME/common/</font> and <font face="Courier New" size="2">$TOMCAT_HOME/shared/</font> are made, by the Tomcat, visible&nbsp; and accessible to other classes within your web application. This works like as if Tomcat defined a CLASSPATH variable which include all those directories and all jar files when your application is executed under Tomcat. Thus, for example, if you want the PostgreSQL's JDBC driver, <em>pg73jdbc3.jar</em>, accessible in your application, simply copy it to your <em>Context_Path/WEB-INF/lib/</em>  directory. </font>
+
+<br><br><font face="Garamond" size="3">
+<font color="#000099">Development and Deployment with Eclipse</font>
+<br>When you create a&nbsp;<em>Tomcat project</em> using Eclipse, the directory structure described above is created automcatically by Eclipse. HTML files , e.g., <font face="Courier New">SimpletServlet.htm</font>  , are stored in the root directory of the project, dot-java (.java) files,&nbsp;e.g., SimpleServlet.java, in the <em>src</em> directory, the JDBC drivers (JAR file), e.g., pg73jdbc3.jar, in <em>WEB-INF/lib/</em>. <em>WEB-INF/classes/</em> is also created, but not displayed in Eclipse since the programmer does not need to access any files stored in this directory. <em>WEB-INF/web.xml </em>is created as a template, and you need to edit it to suit your application.<br><br>When the project is built and deployed (by selecting proper options in the <em>Ant Build...</em>), the dot-class (.class) files are generated and stored in <em>WEB-INF/classes/,</em> and then the&nbsp;directory structure is copied to <em>$TOMCAT_HOME/webapps/</em>. You may want to look into <em>build.xml</em> and <em>build.properties</em> two files to see how the configuration files for build and deployment. </font>
+<br><br>
+<font face="Garamond" size="3">
+<font color="#000099">Development and Deployment without any IDE</font>
+<br>This part describes how to develop and deploy Web applications manually, i.e., with no help from any integrated development environment such as Eclipse. Hopefully, through this manual process, you have a better understanding of the directory structure of Tomcat and its relationship with the development environmnet.
+<br><br><strong>Step 1:&nbsp; Create an&nbsp;directory structure for development</strong> <br> <br>Create&nbsp;a directory named WebHello in C:\, and then create WEB-INF&nbsp;in WebHello\, and then WEB-INF\classes\ and WEB-INF\lib\&nbsp;in WEB-INF. So we have:<br></font>
+<font face="Courier New" size="2">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; C:\WebHello\<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; C:\WebHello\WEB-INF\<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; C:\WebHello\WEB-INF\classes\<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; C:\WebHello\WEB-INF\lib\<br>
+</font>
+<br>
+<font face="Garamond" size="3">  <strong>Step 2:&nbsp;Put files in proper places<br></strong>
+<br>Create <font face="Courier New">SimpletServlet.htm </font> and&nbsp;save it in&nbsp;<font face="Courier New">C:\WebHello\ </font>directory, and create <font face="Courier New">SimpletServlet.java </font> and&nbsp;save it in&nbsp;<font face="Courier New">C:\WebHello\</font> directory<br>
+</font>
+<font face="Garamond" size="3"> <br><strong>Step 3: Compile java servlets <br>     <br></strong>
+Change directory to <font face="Courier New">C:\WebHello\</font>; and then compile&nbsp;<font face="Courier New">SimpletServlet.java:<br></font><br>
+<font face="Courier New" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; javac -d&nbsp;WEB-INF\classes -cp&nbsp;$TOMCAT_HOME\common\lib\servlet-api.jar SimpleServlet.java&nbsp;<br></font><br>
+Here, $TOMCAT_HOME refers to the path where your Tomcat is installed. If you have&nbsp;followed this&nbsp;tutorial from the beginning, you can compile your&nbsp;program&nbsp;using the following command (as one line):
+
+<br><br><font face="Courier New" size="2">javac -d WEB-INF\classes -cp "c:\Program Files\Apache Software Foundation\Tomcat 5.5\common\lib\servlet-api.jar" SimpleServlet.java</font><br>
+<br>
+
+Note that we are compiling the servlet program under Windows XP, and so we need to specify where the Java Servlet package is located in the command line using the&nbsp;-CLASSPATH (-cp) option. As mentioned in <em>Accessible classes/JARS in Tomcat</em> section, when this servlet is executed, the classes needed from <font face="Courier New" size="2">servlet-api.jar</font> would be found by Tomcat since it is stored in <em>$TOMCAT_HOME/common/</em> directory. <br>  </font>
+<font face="Garamond" size="3"> <br><strong>Step 4:&nbsp;Copy the application to Tomcat for deployment</strong> <br>
+<br>You may use the xcopy command to copy the WebHello directory and all files and subdirectories in it to <font face="Courier New" size="2">$TOMCAT_HOME\webapps\</font> if you figure out the syntax of xcopy. However, the simplest way to do this step is, in&nbsp;Microsoft Windows XP's&nbsp;<em>Explore</em>, copy the <em>WebHello</em> directory and the paste it into <font face="Courier New" size="2">$TOMCAT_HOME\webapps\.</font> If you followed this tutorial, after copying you should see&nbsp;the following directory:<br><br>
+
+<font face="Courier New"><font size="2">&nbsp;&nbsp;&nbsp; c:\Program Files\Apache Software Foundation\Tomcat 5.5\webapps\WebHello\</font> <br>  </font>
+
+<font face="Garamond" size="3"> <br>
+<strong>Step 5:&nbsp;Deploy the application by a&nbsp;Tomcat manager<br></strong>
+<br>
+Start your tomcat server and use a&nbsp;browser to log into the server as a manager, and deploy <font face="Courier New">WebHello</font>. Enter the following in a web browser <br>       <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font face="Courier New" size="2"><a href="http://localhost:8081/WebHello/SimpleServlet.htm">http://localhost:8081/WebHello/SimpleServlet.htm</a></font> <br> </font>
+<font face="Garamond" size="3"> <br>
+<strong>Step 6:&nbsp;Test the application<br>   <br></strong>
+In the displayed form, enter your first and last name as requested and then click submit. if everything goes well, it should display a message like "Hello, First Name Last Name, your first servlet works".
+</font>
+<br>
+<br>
+<strong><font size="5">HttpServletRequest and HttpServletResponse API</font><br></strong>
+
+<br><font face="Arial,Helvetica"><font color="#3333ff">HttpServletRequest&nbsp;API</font></font> <br><br>The HttpServletRequest object passed by the WWW server to the doGet or doPost methods contains the request from the client. It provides a rich set of methods for accessing request parameters. A short list of those includes: </font></div><font face="Garamond" size="3">
+<ul>
+  <li><font face="Courier New,Courier" color="#800040">String getParameter(String   name)</font><font face="Arial,Helvetica">:</font> return the value of a   parameter indicated by the name parameter as part of the GET or POST requests   </li><li><font face="Courier New,Courier" color="#800040">Enumeration   getParameterNames()</font><font face="Arial,Helvetica">: </font>return the names   of all the parameters of a GET or POST request.   </li><li><font face="Courier New,Courier" color="#800040">String[]   getParameterValues(String name)</font><font face="Arial,Helvetica">:   </font>return an array of strings containing the values for a specified   servlet parameter.   </li><li><font face="Courier New,Courier" color="#800040">Cookie[]   getCookies()</font><font face="Arial,Helvetica">:</font> return&nbsp; an array   of Cookie objects stored on the client by the server. Cookies can be used to   uniquely identify clients to the server.   </li><li><font face="Courier New,Courier"><font color="#800040">HttpSession   getSession(boolean create):</font> </font>return an HttpSession object   associated with the client's current browsing session. HttpSession severs a   similar purpose as cookies. </li></ul>
+<div><font face="Arial,Helvetica"><font color="#3333ff">HttpServletResponse&nbsp;API</font></font> <br><br>The doGet and doPost methods receive an object that implements the HttpServletResponse interface. The interface provides a set of methods for sending information back to the client. A list of commonly used methods are listed below: </div>
+<ul>
+  <li><font face="Arial,Helvetica" color="#800040">void setContentType(String   type):</font> Specifies the type of response back to the browser. For example,   "text/html" speecifies the response is an HTML document.   </li><li><font face="Arial,Helvetica"><font color="#800040">PrintWriter   getWriter():</font> </font>returns a text-based output stream for text data to   be sent back to the browser. For example, it can be used to print the HTML   statements to the browser..   </li><li><font face="Arial,Helvetica"><font color="#800040">ServletOutputStream   getOutputStream():</font> </font>return a binary output stream for binary data   to be sent back to the browser.
+  </li><li><font face="Arial,Helvetica" color="#800040">void addCookie(Cookie   cookie):</font> add cookies to the client's browser.</li></ul><br><br><br><br><br><br><br><br><br><br><br></font></div></font></font></font></font></font></div></div></div>
+
+
+
+<div id="mainContainer_CTID"><div class="fixedDiv SkipThisFixedPosition UrlGadgetsDiv" style="position: fixed; left: 0px; z-index: 2147483640; top: 34px !important; "></div><div class="fixedDiv SkipThisFixedPosition GeneralGadgetsDiv" style="position: fixed; left: 0px; z-index: 2147483640; width: 100%; top: 34px !important; "></div></div><div class="SkipThisFixedPosition top-iframe-wrapper" style="width: 100%; height: 34px; position: fixed; z-index: 2147483647; left: 0px; top: 0px !important; "><iframe style="width: 100%; height: 34px; top: 0px; left: 0px; " src="./Web Programming_files/container.htm" scrolling="no" class="toolbarContainer" frameborder="0px" id="CWTBiframe0"></iframe></div></body><style type="text/css" id="CWToolbarStyle">html { padding-top: 34px !important;}</style></html>

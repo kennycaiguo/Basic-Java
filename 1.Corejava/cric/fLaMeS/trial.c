@@ -1,0 +1,113 @@
+#include <stdio.h>
+#include <stdlib.h>
+void final(char c)
+{
+     if(c=='f')
+     printf("Friends\n");
+     else
+     if(c=='l')
+     printf("Lovers\n");
+     else
+     if(c=='a')
+     printf("Ancestors\n");
+     else
+     if(c=='m')
+     printf("Marriage\n");
+     else
+     if(c=='e')
+     printf("Enemies\n");
+     else
+     if(c=='s')
+     printf("Sisters\n");
+}
+int main()
+{
+    char n1[30],n2[30],c,d;
+    int count,i,j,k,r,q;
+    FILE *f1,*f2;
+    do
+    {
+    count=0;k=1;r=1;q=5;
+    printf("Enter the first name=");
+    scanf("%s",n1);
+    printf("Enter the second name=");
+    scanf("%s",n2);
+    for(i=0;n1[i]!='\0';i++)
+    {
+        for(j=0;n2[j]!='\0';j++)
+        {
+            if(n1[i]==n2[j])
+            {
+            n1[i]='#';
+            n2[j]='#';
+            }
+        }
+    }
+    for(i=0;n1[i]!='\0';i++)
+    {
+        if(n1[i]!='#')
+        count++;
+    }
+    for(i=0;n2[i]!='\0';i++)
+    {
+        if(n2[i]!='#')
+        count++;
+    }
+    printf("Count=%d\n",count);
+    f1=fopen("main.txt","r");
+    f2=fopen("temp.txt","w");
+    j=count%6;
+    i=1;
+    while(k<5)
+    {
+    while((c=fgetc(f1))!=EOF)
+    {
+    if(j==(i-1))
+    {
+    fputc(c,f2);
+    while((c=fgetc(f1))!='#'&&r!=q)
+    {
+    if(c!=EOF)
+    {
+    fputc(c,f2);
+    r++;
+    }
+    else
+    rewind(f1);
+    }
+    fclose(f2);
+    break;
+    }
+    i++;
+    }
+    fclose(f1);
+    j=count%q;
+    q--;
+    i=1;
+    r=1;
+    if(k%2==1)
+    {
+    f2=fopen("t1.txt","w");
+    f1=fopen("temp.txt","r");
+    }
+    else
+    {
+    f1=fopen("t1.txt","r");
+    f2=fopen("temp.txt","w");
+    }
+    k++;
+    }
+    j=count%2;
+    f1=fopen("t1.txt","r");
+    c=fgetc(f1);
+    d=fgetc(f1);
+    if(j==1)
+    final(d);
+    else
+    final(c);
+    printf("1.Continue\n2.Exit\n");
+    printf("Enter the choice=");
+    scanf("%d",&i);
+    }while(i==1);
+    return(0);
+}

@@ -1,0 +1,16 @@
+join(): There is a way, however to start a thread but tell it not to run                 until some other thread has finished. We can do this with the                join() method. 
+
+yield(): A yield() method will cause a thread to go from running to                     runnable state.
+
+points:
+
+1) A thread is done being a thread when its target run() method     completes.
+
+2) Once a thread has been started, it can never be started again.
+
+3) Thread having five states: new,runnable,          running,waiting/blocked/sleeping and dead.
+
+4) The order in which runnable threads are chosen to run is not     guaranteed.
+
+5)  
+  

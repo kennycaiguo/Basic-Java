@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en-US"><head>
+<title>JavaScript while Loop</title>
+ 
+<link rel="shortcut icon" href="http://www.w3schools.com/favicon.ico" type="image/x-icon">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="Keywords" content="html,css,tutorial,html5,dhtml,css3,xsl,xslt,xhtml,javascript,jquery,asp,ado,net,vbscript,dom,sql,colors,soap,php,rss,authoring,programming,training,learning,quiz,beginner's guide,primer,lessons,school,howto,reference,examples,samples,source code,tags,demos,tips,links,FAQ,tag list,forms,frames,color table,w3c,cascading style sheets,active server pages,dynamic html,internet,database,development,Web building,Webmaster,html guide">
+<meta name="Description" content="Free HTML XHTML CSS JavaScript jQuery XML DOM XSL XSLT RSS AJAX ASP .NET PHP SQL tutorials, references, examples for web building.">
+<script type="text/javascript">
+<!--
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+//-->
+</script><script src="js_loop_while.asp_files/ga.js" type="text/javascript"></script>
+<script type="text/javascript">
+<!--
+function searchfield_focus(obj)
+{
+obj.style.color=""
+obj.style.fontStyle=""
+if (obj.value=="Search w3schools.com")
+	{obj.value=""}
+}
+var pageTracker = _gat._getTracker("UA-3855518-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+var addr=document.location.href;
+function displayError()
+{
+document.getElementById("err_url").value=addr;
+document.getElementById("err_form").style.display="block";
+document.getElementById("err_desc").focus();
+hideSent();
+}
+function hideError()
+{
+document.getElementById("err_form").style.display="none";
+}
+function hideSent()
+{
+document.getElementById("err_sent").style.display="none";
+}
+function sendErr()
+{
+var xmlhttp;
+var err_url=document.getElementById("err_url").value;
+var err_email=document.getElementById("err_email").value;
+var err_desc=document.getElementById("err_desc").value;
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.open("POST","/err_sup.asp",true);
+xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+xmlhttp.send("err_url=" + err_url + "&err_email=" + err_email + "&err_desc=" + escape(err_desc));
+hideError();
+document.getElementById("err_sent").style.display="block";
+}
+function click_expandingMenuHeader(obj,sectionName)
+{
+var x=document.getElementById("cssprop_" + sectionName).parentNode.className;
+if (x.indexOf("expandingMenuNotSelected")>-1)
+	{
+	x=x.replace("expandingMenuNotSelected","expandingMenuSelected");
+	document.getElementById("cssprop_" + sectionName).parentNode.className=x;
+	document.getElementById("cssprop_" + sectionName).style.display="block";
+	}
+else
+	{
+	x=x.replace("expandingMenuSelected","expandingMenuNotSelected");
+	document.getElementById("cssprop_" + sectionName).parentNode.className=x;
+	document.getElementById("cssprop_" + sectionName).style.display="none";
+	}
+}
+//-->
+</script>
+<!--[if lt IE 7]>
+<style>
+#leftcolumn{margin-left:0}
+</style>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="js_loop_while.asp_files/stdtheme.css">
+<script src="js_loop_while.asp_files/osd.js" type="text/javascript"></script></head>
+<body>
+
+<div style="position:relative;width:100%;margin-top:0px;margin-bottom:0px;">
+<a id="top"></a>
+<div style="width:960px;margin-top:5px;margin-left:auto;margin-right:auto">
+<div style="width:960px;height:74px;margin:0;padding:0;">
+<div style="width:340px;text-align:left;float:left;">
+	<a href="http://www.w3schools.com/"><img src="js_loop_while.asp_files/w3schoolslogo.gif" alt="W3Schools.com" style="border: 0pt none; margin-top: 5px;" height="69" width="336"></a>
+</div>
+
+<div style="width:300px;float:right;text-align:right;margin-top:20px;margin-right:14px;margin-bottom:5px;">
+<div id="google_translate_element" style="display:none"></div>
+<div id="translate_link" style="margin-bottom:14px">
+<a href="#" class="topnav" onclick="document.getElementById('google_translate_element').style.display='inline';document.getElementById('translate_link').style.display='none';return false;">
+TRANSLATE
+</a>
+</div>
+	<form style="font-size:11px;" method="get" name="searchform" action="http://www.google.com/search" target="_blank">
+    <input name="sitesearch" value="www.w3schools.com" type="hidden">
+    <input onfocus="searchfield_focus(this)" style="width: 150px; color: rgb(128, 128, 128); font-style: italic; margin: 0pt;" name="as_q" size="20" value="Search w3schools.com" type="text"><input style="margin: 0pt;" value="Search" title="Search" type="submit">
+	</form>
+</div>
+</div>
+<div id="topnav" style="clear:both;width:960px;height:25px;">
+<div style="float:left;width:400px;word-spacing:12px;font-size:90%;padding-left:15px;padding-top:6px;white-space:nowrap;text-align:left;">
+	<a class="topnav" href="http://www.w3schools.com/default.asp" target="_top">HOME </a>
+	<a class="topnav" href="http://www.w3schools.com/html/default.asp" target="_top">HTML </a>
+	<a class="topnav" href="http://www.w3schools.com/css/default.asp" target="_top">CSS </a>
+	<a class="topnav" href="http://www.w3schools.com/xml/default.asp" target="_top">XML </a>
+	<a class="topnav" href="http://www.w3schools.com/js/default.asp" target="_top">JAVASCRIPT </a>
+	<a class="topnav" href="http://www.w3schools.com/asp/default.asp" target="_top">ASP </a>
+	<a class="topnav" href="http://www.w3schools.com/php/default.asp" target="_top">PHP </a>
+	<a class="topnav" href="http://www.w3schools.com/sql/default.asp" target="_top">SQL </a>	
+	<a class="topnav" href="http://www.w3schools.com/sitemap/default.asp" target="_top">MORE...</a>
+</div>
+<div style="float:right;width:280px;word-spacing:6px;font-size:80%;padding-right:13px;padding-top:7px;color:#888888;white-space:nowrap;text-align:right;">
+	<a class="topnav" href="http://www.w3schools.com/sitemap/default.asp#references" target="_top">REFERENCES</a> |
+	<a class="topnav" href="http://www.w3schools.com/sitemap/default.asp#examples" target="_top">EXAMPLES</a> |
+	<a class="topnav" href="http://www.w3schools.com/forum/default.asp" target="_top">FORUM</a> |
+	<a class="topnav" href="http://www.w3schools.com/about/default.asp" target="_top">ABOUT</a>	
+</div>
+</div>
+
+<div style="width:960px;height:94px;position:relative;margin-left:auto;margin-right:auto;margin:0px;padding:0px;overflow:hidden">
+<script type="text/javascript" src="js_loop_while.asp_files/google_service.js">
+</script>
+<script type="text/javascript">
+GS_googleAddAdSenseService("ca-pub-3440800076797949");
+GS_googleEnableAllServices();
+</script><script src="js_loop_while.asp_files/google_ads.js"></script>
+<script type="text/javascript">
+
+GA_googleAddSlot("ca-pub-3440800076797949", "MainLeaderboard");
+GA_googleAddSlot("ca-pub-3440800076797949", "SmallPS");
+GA_googleAddSlot("ca-pub-3440800076797949", "LargePS");
+GA_googleAddSlot("ca-pub-3440800076797949", "BottomRectangle");
+GA_googleAddSlot("ca-pub-3440800076797949", "BottomBanner");
+
+GA_googleAddSlot("ca-pub-3440800076797949", "TopRectangle");
+</script>
+<script type="text/javascript">
+GA_googleFetchAds();
+</script>
+<!-- TopRectangle -->
+<script type="text/javascript">
+GA_googleFillSlot("TopRectangle");
+</script><script src="js_loop_while.asp_files/ads"></script><div id="google_ads_div_TopRectangle_ad_container"><div class="toprect_txt">
+<b>YOUR FREE WEBSITE</b><br><br>
+<a target="_blank" rel="nofollow" href="http://adclick.g.doubleclick.net/aclk?sa=L&amp;ai=BRu0wAmhfT5e_Eaq5igeloqiXB8-T7p8CAAAAEAEg5-j6ATgAWLfB7rMmYOWCgICoDrIBEXd3dy53M3NjaG9vbHMuY29tugEJZ2ZwX2ltYWdlyAEJ2gEtaHR0cDovL3d3dy53M3NjaG9vbHMuY29tL2pzL2pzX2xvb3Bfd2hpbGUuYXNwmALTBqkCM2sDaIaEhz7AAgLgAgDqAgxUb3BSZWN0YW5nbGX4AvXRHpADmgiYA4wGqAMB4AQBoAYW&amp;num=0&amp;sig=AOD64_1nvYa63DymS8zsxToaDN7PFtK1Mw&amp;client=ca-pub-3440800076797949&amp;adurl=http://www.wix.com/ateamlp/pins_8mil?utm_campaign=ma_w3schools.com&amp;experiment_id=ma_w3schools.com307">Free Flash Website</a><br>
+<a target="_blank" rel="nofollow" href="http://adclick.g.doubleclick.net/aclk?sa=L&amp;ai=BRu0wAmhfT5e_Eaq5igeloqiXB8-T7p8CAAAAEAEg5-j6ATgAWLfB7rMmYOWCgICoDrIBEXd3dy53M3NjaG9vbHMuY29tugEJZ2ZwX2ltYWdlyAEJ2gEtaHR0cDovL3d3dy53M3NjaG9vbHMuY29tL2pzL2pzX2xvb3Bfd2hpbGUuYXNwmALTBqkCM2sDaIaEhz7AAgLgAgDqAgxUb3BSZWN0YW5nbGX4AvXRHpADmgiYA4wGqAMB4AQBoAYW&amp;num=0&amp;sig=AOD64_1nvYa63DymS8zsxToaDN7PFtK1Mw&amp;client=ca-pub-3440800076797949&amp;adurl=http://www.wix.com/start/wfree?utm_campaign=ma_w3schools.com&amp;experiment_id=ma_w3schools.com308">Free Website Builder</a><br>
+<a target="_blank" rel="nofollow" href="http://adclick.g.doubleclick.net/aclk?sa=L&amp;ai=BRu0wAmhfT5e_Eaq5igeloqiXB8-T7p8CAAAAEAEg5-j6ATgAWLfB7rMmYOWCgICoDrIBEXd3dy53M3NjaG9vbHMuY29tugEJZ2ZwX2ltYWdlyAEJ2gEtaHR0cDovL3d3dy53M3NjaG9vbHMuY29tL2pzL2pzX2xvb3Bfd2hpbGUuYXNwmALTBqkCM2sDaIaEhz7AAgLgAgDqAgxUb3BSZWN0YW5nbGX4AvXRHpADmgiYA4wGqAMB4AQBoAYW&amp;num=0&amp;sig=AOD64_1nvYa63DymS8zsxToaDN7PFtK1Mw&amp;client=ca-pub-3440800076797949&amp;adurl=http://www.wix.com/start/wfree?utm_campaign=ma_w3schools.com&amp;experiment_id=ma_w3schools.com309">Free Web Design</a>
+</div>
+
+</div>
+
+<div style="width:728px;height:90px;position:absolute;right:0px;top:0px;margin:0;padding:0;overflow:hidden;">
+
+<!-- MainLeaderboard -->
+<script type="text/javascript">
+GA_googleFillSlot("MainLeaderboard");
+</script><script src="js_loop_while.asp_files/ads_003"></script><div id="google_ads_div_MainLeaderboard_ad_container">
+<ins style="width: 728px; height: 90px; display: inline-table; position: relative; border: 0pt none;"><ins style="width: 728px; height: 90px; display: block; position: relative; border: 0pt none;"><iframe style="border: 0pt none; position: absolute; top: 0pt; left: 0pt;" marginheight="0" marginwidth="0" name="google_ads_iframe_MainLeaderboard" id="google_ads_iframe_MainLeaderboard" frameborder="0" height="90" scrolling="no" width="728"></iframe></ins></ins></div>
+<script>GA_googleCreateDomIframe("google_ads_div_MainLeaderboard_ad_container" ,"MainLeaderboard");</script>
+
+</div></div>
+<div style="width:960px;padding:0px;margin:0px;">
+<div id="leftcolumn" style="width:170px;margin:0;padding:0;margin-top:5px;float:left;"><h2 class="left"><span class="left_h2">JS</span> Basic</h2>
+<a target="_top" href="http://www.w3schools.com/js/default.asp">JS HOME</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_intro.asp">JS Introduction</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_howto.asp">JS How To</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_whereto.asp">JS Where To</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_statements.asp">JS Statements</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_comments.asp">JS Comments</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_variables.asp">JS Variables</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_operators.asp">JS Operators</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_comparisons.asp">JS Comparisons</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_if_else.asp">JS If...Else</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_switch.asp">JS Switch</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_popup.asp">JS Popup Boxes</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_functions.asp">JS Functions</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_loop_for.asp">JS For Loop</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_loop_while.asp" style="font-weight: bold;">JS While Loop</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_break.asp">JS Break Loops</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_loop_for_in.asp">JS For...In</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_events.asp">JS Events</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_try_catch.asp">JS Try...Catch</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_throw.asp">JS Throw</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_special_characters.asp">JS Special Text</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_guidelines.asp">JS Guidelines</a><br>
+<br>
+<h2 class="left"><span class="left_h2">JS</span> Objects</h2>
+<a target="_top" href="http://www.w3schools.com/js/js_obj_intro.asp">JS Objects Intro</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_obj_string.asp">JS String</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_obj_date.asp">JS Date</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_obj_array.asp">JS Array</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_obj_boolean.asp">JS Boolean</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_obj_math.asp">JS Math</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_obj_regexp.asp">JS RegExp</a><br>
+<br>
+<h2 class="left"><span class="left_h2">JS</span> Advanced</h2>
+<a target="_top" href="http://www.w3schools.com/js/js_browser.asp">JS Browser</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_cookies.asp">JS Cookies</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_form_validation.asp">JS Validation</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_timing.asp">JS Timing</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_objects.asp">JS Create Object</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_summary.asp">JS Summary</a><br>
+<br>
+<h2 class="left"><span class="left_h2">JS</span> Examples</h2>
+<a target="_top" href="http://www.w3schools.com/js/js_examples.asp">JS Examples</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_ex_objects.asp">JS Objects Examples</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_ex_browser.asp">JS Browser Examples</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_ex_dom.asp">JS DOM Examples</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_quiz.asp">JS Quiz</a><br>
+<a target="_top" href="http://www.w3schools.com/js/js_exam.asp">JS Certificate</a><br>
+<br>
+<h2 class="left"><span class="left_h2">JS</span> References</h2>
+<a target="_top" href="http://www.w3schools.com/jsref/default.asp">JavaScript Objects</a><br>
+<a target="_top" href="http://www.w3schools.com/jsref/default.asp">HTML DOM Objects</a><br></div>
+<div style="width:634px;margin:0px;padding:0px;background-color:#ffffff;color:#000000;padding-bottom:8px;padding-right:5px;padding-top:4px;float:left;">
+
+<h1>JavaScript <span class="color_h1">While Loop</span></h1>
+<div class="chapter">
+<div class="prev"><a class="chapter" href="http://www.w3schools.com/js/js_loop_for.asp">« Previous</a></div>
+<div class="next"><a class="chapter" href="http://www.w3schools.com/js/js_break.asp">Next Chapter »</a></div>
+</div>
+<hr>
+<p class="intro">Loops execute a block of code
+a specified number of times, or while a specified condition is true.</p>
+<hr>
+
+<h2>The while Loop</h2>
+<p>The while loop loops through a block of code while a specified condition is true.</p>
+
+<h3>Syntax</h3>
+<div class="code notranslate"><div>
+
+while (<i>variable</i>&lt;=<i>endvalue</i>)<br>
+&nbsp;
+{<br>
+    <i>&nbsp; code to be executed</i><br>
+&nbsp;
+}</div></div>
+
+<p><b>Note:</b> The &lt;= could be any comparing operator.</p>
+
+<h3>Example</h3>
+<p>The example below defines a loop that starts with i=0. The loop 
+will continue to run as long as <b>i</b> is less than, or equal to 5. <b>i</b> 
+will increase by 1 each time the loop runs:</p>
+
+<div class="example">
+<h2 class="example">Example</h2>
+<div class="example_code notranslate">
+&lt;html&gt;<br>
+&lt;body&gt;<br>
+&lt;script type="text/javascript"&gt;<br>
+var i=0;<br>
+while (i&lt;=5)<br>
+&nbsp;
+{<br>
+&nbsp;
+document.write("The number is " + i);<br>
+&nbsp;
+document.write("&lt;br /&gt;");<br>
+&nbsp;
+i++;<br>
+&nbsp;
+}<br>
+&lt;/script&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;</div>
+<br>
+<a target="_blank" href="http://www.w3schools.com/js/tryit.asp?filename=tryjs_while" class="tryitbtn">Try it yourself »</a>
+</div>
+<br>
+<hr>
+
+<h2>The do...while Loop</h2>
+<p>The do...while loop is a variant of the while loop. This loop will 
+execute the block of code ONCE, and then it will
+repeat the loop as long as the specified condition is true.</p>
+
+<h3>Syntax</h3>
+<div class="code notranslate"><div>
+
+do<br>
+&nbsp;
+{<br>
+    <i>&nbsp; code to be executed<br>
+&nbsp;
+</i>}<br>
+while (<i>variable</i>&lt;=<i>endvalue</i>);</div></div>
+
+
+<h3>Example</h3>
+
+
+<p>The example below uses a do...while loop. The do...while loop will always be 
+executed at least once, even if the condition is false, because the statements 
+are executed before the condition is tested:</p>
+
+<div class="example">
+<h2 class="example">Example</h2>
+<div class="example_code notranslate">
+&lt;html&gt;<br>
+&lt;body&gt;<br>
+&lt;script type="text/javascript"&gt;<br>
+var i=0;<br>
+do<br>
+&nbsp;
+{<br>
+&nbsp;
+document.write("The number is " + i);<br>
+&nbsp;
+document.write("&lt;br /&gt;");<br>
+&nbsp;
+i++;<br>
+&nbsp;
+}<br>
+while (i&lt;=5);<br>
+&lt;/script&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;</div>
+<br>
+<a target="_blank" href="http://www.w3schools.com/js/tryit.asp?filename=tryjs_dowhile" class="tryitbtn">Try it yourself »</a>
+</div>
+<br>
+<div class="chapter">
+<div class="prev"><a class="chapter" href="http://www.w3schools.com/js/js_loop_for.asp">« Previous</a></div>
+<div class="next"><a class="chapter" href="http://www.w3schools.com/js/js_break.asp">Next Chapter »</a></div>
+</div>
+
+<hr>
+
+<!-- **** SPOTLIGHTS 1 **** -->
+<!-- SmallPS -->
+<script type="text/javascript">
+GA_googleFillSlot("SmallPS");
+</script><script src="js_loop_while.asp_files/ads_004"></script>
+<!-- **** SPOTLIGHTS 2 **** -->
+<!-- LargePS -->
+<script type="text/javascript">
+GA_googleFillSlot("LargePS");
+</script><script src="js_loop_while.asp_files/ads_002"></script><div id="google_ads_div_LargePS_ad_container"><h2><a target="_blank" rel="nofollow" href="http://adclick.g.doubleclick.net/aclk?sa=L&amp;ai=B7uW9CGhfT5XeDKTcigf9m9S1B6-17p8CAAAAEAEg5-j6ATgAWM_N7rMmYOWCgICoDrIBEXd3dy53M3NjaG9vbHMuY29tugEJZ2ZwX2ltYWdlyAEJ2gEtaHR0cDovL3d3dy53M3NjaG9vbHMuY29tL2pzL2pzX2xvb3Bfd2hpbGUuYXNw4AEEmAL3H6kCM2sDaIaEhz7AAgLgAgDqAgdMYXJnZVBT-AL10R6QA5oImAOMBqgDAeAEAaAGFg&amp;num=0&amp;sig=AOD64_1gG-0zYEpix5QFVzh99ZXfSqiRow&amp;client=ca-pub-3440800076797949&amp;adurl=http://www.altova.com/ref/?s=w3s_spotlight&amp;q=xmlspy">
+Altova® XMLSpy® - The industry's leading XML editor!</a></h2>
+<a target="_blank" rel="nofollow" href="http://adclick.g.doubleclick.net/aclk?sa=L&amp;ai=B7uW9CGhfT5XeDKTcigf9m9S1B6-17p8CAAAAEAEg5-j6ATgAWM_N7rMmYOWCgICoDrIBEXd3dy53M3NjaG9vbHMuY29tugEJZ2ZwX2ltYWdlyAEJ2gEtaHR0cDovL3d3dy53M3NjaG9vbHMuY29tL2pzL2pzX2xvb3Bfd2hpbGUuYXNw4AEEmAL3H6kCM2sDaIaEhz7AAgLgAgDqAgdMYXJnZVBT-AL10R6QA5oImAOMBqgDAeAEAaAGFg&amp;num=0&amp;sig=AOD64_1gG-0zYEpix5QFVzh99ZXfSqiRow&amp;client=ca-pub-3440800076797949&amp;adurl=http://www.altova.com/ref/?s=w3s_spotlight&amp;q=xmlspy">
+<img src="js_loop_while.asp_files/altova_xmlspy_2012.gif" alt="Altova XMLSpy" border="0"></a><br>
+<p>Whether you're new to XML or already an advanced user, the 
+user-friendly views and powerful entry helpers, wizards, and debuggers 
+in XMLSpy are designed to meet your XML and Web development needs from 
+start to finish.
+<b>New features in Version 2012!</b></p>
+<table>
+<tbody><tr>
+<td align="left" valign="top">
+<ul>
+<li>XML editor </li>
+<li>Graphical XML Schema / DTD editors </li>
+<li>XSLT 1.0/2.0 editor, debugger, profiler </li>
+<li>XQuery editor, debugger, profiler </li>
+<li>XBRL validator, taxonomy editor, taxonomy wizard</li>
+<li>New! Chart creation for XML data</li>
+<li>Support for Office Open XML (OOXML) </li>
+<li>Graphical WSDL 1.1/2.0 editor &amp; SOAP debugger</li>
+<li>JSON editing &amp; conversion</li>
+<li>Java, C#, C++ code generation</li>
+<li>32-bit and 64-bit versions</li>
+<li>New! HTML5 and CSS3 support</li>
+<li>And much more!</li>
+</ul>
+<p><b><a target="_blank" rel="nofollow" href="http://adclick.g.doubleclick.net/aclk?sa=L&amp;ai=B7uW9CGhfT5XeDKTcigf9m9S1B6-17p8CAAAAEAEg5-j6ATgAWM_N7rMmYOWCgICoDrIBEXd3dy53M3NjaG9vbHMuY29tugEJZ2ZwX2ltYWdlyAEJ2gEtaHR0cDovL3d3dy53M3NjaG9vbHMuY29tL2pzL2pzX2xvb3Bfd2hpbGUuYXNw4AEEmAL3H6kCM2sDaIaEhz7AAgLgAgDqAgdMYXJnZVBT-AL10R6QA5oImAOMBqgDAeAEAaAGFg&amp;num=0&amp;sig=AOD64_1gG-0zYEpix5QFVzh99ZXfSqiRow&amp;client=ca-pub-3440800076797949&amp;adurl=http://www.altova.com/ref/?s=w3s_spotlight&amp;q=xmlspy">
+Download a free trial today!</a></b></p>
+</td>
+<td width="5">&nbsp;</td>
+<td align="right" valign="top" width="205">
+<a target="_blank" rel="nofollow" href="http://adclick.g.doubleclick.net/aclk?sa=L&amp;ai=B7uW9CGhfT5XeDKTcigf9m9S1B6-17p8CAAAAEAEg5-j6ATgAWM_N7rMmYOWCgICoDrIBEXd3dy53M3NjaG9vbHMuY29tugEJZ2ZwX2ltYWdlyAEJ2gEtaHR0cDovL3d3dy53M3NjaG9vbHMuY29tL2pzL2pzX2xvb3Bfd2hpbGUuYXNw4AEEmAL3H6kCM2sDaIaEhz7AAgLgAgDqAgdMYXJnZVBT-AL10R6QA5oImAOMBqgDAeAEAaAGFg&amp;num=0&amp;sig=AOD64_1gG-0zYEpix5QFVzh99ZXfSqiRow&amp;client=ca-pub-3440800076797949&amp;adurl=http://www.altova.com/ref/?s=w3s_spotlight&amp;q=xmlspy">
+<img src="js_loop_while.asp_files/xml-editor.gif" alt="Altova XMLSpy" border="0"></a>
+</td>
+</tr>
+</tbody></table>
+<hr>
+
+</div>
+
+<!-- **** SPOTLIGHTS 3 **** -->
+<!-- BottomRectangle -->
+<div style="width:340px;margin:auto">
+<script type="text/javascript">
+GA_googleFillSlot("BottomRectangle");
+</script><script src="js_loop_while.asp_files/ads_005"></script><div id="google_ads_div_BottomRectangle_ad_container">
+<ins style="width: 336px; height: 280px; display: inline-table; position: relative; border: 0pt none;"><ins style="width: 336px; height: 280px; display: block; position: relative; border: 0pt none;"><iframe style="border: 0pt none; position: absolute; top: 0pt; left: 0pt;" marginheight="0" marginwidth="0" name="google_ads_iframe_BottomRectangle" id="google_ads_iframe_BottomRectangle" frameborder="0" height="280" scrolling="no" width="336"></iframe></ins></ins></div>
+<script>GA_googleCreateDomIframe("google_ads_div_BottomRectangle_ad_container" ,"BottomRectangle");</script>
+</div>
+
+<!-- BottomBanner -->
+<script type="text/javascript">
+GA_googleFillSlot("BottomBanner");
+</script><script src="http://pubads.g.doubleclick.net/gampad/ads?correlator=2068575700936225&amp;output=json_html&amp;callback=GA_googleSetAdContentsBySlotForSync&amp;impl=s&amp;prev_afc=9&amp;pstok=_Cfb4MsoSdcKDQoLCPfy_gUQt8HusyYKBRCf6-oDCgAKDQoLCOf0_gUQz83usyYKBRDLjLQD&amp;client=ca-pub-3440800076797949&amp;slotname=BottomBanner&amp;page_slots=TopRectangle%2CMainLeaderboard%2CSmallPS%2CLargePS%2CBottomRectangle%2CBottomBanner&amp;cookie=ID%3D02d69b465527fda3%3AT%3D1331651605%3AS%3DALNI_MYYf5R421_TMVvMNaaEaHEQHCEKqQ&amp;url=http%3A%2F%2Fwww.w3schools.com%2Fjs%2Fjs_loop_while.asp&amp;ref=http%3A%2F%2Fwww.w3schools.com%2Fjs%2Fjs_loop_for.asp&amp;lmt=1331652606&amp;dt=1331652629792&amp;cc=100&amp;biw=1349&amp;bih=632&amp;adk=3209730295&amp;adx=365&amp;ady=2372&amp;ifi=6&amp;oid=3&amp;u_tz=330&amp;u_his=27&amp;u_java=true&amp;u_h=768&amp;u_w=1366&amp;u_ah=738&amp;u_aw=1366&amp;u_cd=24&amp;u_nplug=26&amp;u_nmime=112&amp;flash=10.1.85&amp;gads=v2&amp;ga_vid=1633418897.1331651584&amp;ga_sid=1331651584&amp;ga_hid=82753297&amp;ga_fc=true"></script></div></div></div></div></body></html>
